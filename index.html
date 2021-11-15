@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta
+    http-equiv="X-UA-Compatible"
+    content="IE=edge"
+  >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1"
+  >
+  <meta
+    name="dicscription"
+    content="台灣公車動態查詢網站"
+  >
+  <meta
+    name="keyword"
+    content="公車,台灣,查詢"
+  >
+  <meta
+    name="author"
+    content="音時エラー"
+  >
+  <meta
+    name="copyright"
+    content="音時エラーx六角學院"
+  >
+  <meta
+    name="format-detection"
+    content="telephone=no"
+  >
+  <title>OTOTOKI 全台公車動態資訊網</title>
+  <link
+    rel="icon"
+    href="/image/bus-icon02.png"
+  >
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="anonymous"
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin="anonymous"
+  ></script>
+  <link
+    rel="stylesheet"
+    href="./dist/css/all.min.css"
+  >
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  >
+</head>
+
+<body>
+  <div class="root">
+    <header>
+      <div class="navbar">
+        <h1 class="main-title">OTOTOKI <span class="main-title-zhTW">全台公車動態資訊網</span></h1>
+        <ul class="navs">
+          <li><a
+              href="./index.html"
+              class="now"
+            >公車動態</a></li>
+          <li><a href="">乘車規劃</a></li>
+          <li><a href="">站點查詢</a></li>
+          <li><a href="">票價查詢</a></li>
+          <li><a href="">最新消息</a></li>
+        </ul>
+      </div>
+      <div class="infomation-bar">
+        <p class="info-plunker">（10/12）865 班次公車因豐原往谷關方向發生路樹倒塌，10:05 發車班次僅行駛谷關至梨山，造成不便，敬請見諒</p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="items">
+        <div class="area-select">
+          <h3 class="sub-title">
+            <span class="material-icons">directions_bus</span>
+            查詢公車路線動態
+          </h3>
+          <div class="select_list">
+            <select
+              required
+              class="selector"
+              id="citySelect"
+            >
+              <option
+                value=""
+                hidden
+              >選擇縣市</option>
+              <!-- ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰-->
+            </select>
+            <span class="material-icons select_arrow1">arrow_drop_down</span>
+            <select
+              required
+              class="selector"
+              id="routeSelector"
+            >
+              <option
+                value=""
+                hidden
+              >選擇路線</option>
+              <!-- ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+              <option value="1">168 環東幹線</option>
+              <option value="1">168 環東幹線</option>
+              <option value="1">168 環東幹線</option> -->
+            </select>
+            <span class="material-icons select_arrow2">arrow_drop_down</span>
+          </div>
+          <ul
+            class="bus_direction"
+            id="busDirection"
+          >
+          </ul>
+          <div>
+          </div>
+          <h3
+            class="price_search"
+            id="myBtn"
+          >票價查詢</h3>
+          <div class="bus-seq-container">
+            <ul class="bus-realtime">
+              <li>
+                <div class="sequence">
+                  <p class="w32">站序</p>
+                  <p class="w216">站名</p>
+                  <p class="w64">預估到站</p>
+                </div>
+              </li>
+              <div class="stop-sequence-content">
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+                <div class="seq-content">
+                  <p class="w32 center">1</p>
+                  <p class="w216 df-aic">阿貓貓站
+                    <span class="material-icons place">place</span>
+                  </p>
+                  <p class="w64">14:00</p>
+                </div>
+              </div>
+            </ul>
+          </div>
+          <!-- <table class="time-table">
+            <thead>
+              <tr>
+                <th class="w20">站序</th>
+                <th class="w60">站名</th>
+                <th>預估到站</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td class="df-aic">金獅湖站<span class="material-icons place">place</span></td>
+                <td>14:00</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="df-aic">天祥一路<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="df-aic">民族一路口<span class="material-icons place">place</span></td>
+                <td>14:16</td>
+              </tr>
+            </tbody>
+          </table> -->
+          <ul class="update">
+            <li><span>30</span> 秒後更新</li>
+            <li>更新</li>
+          </ul>
+        </div>
+        <div id="mapid"></div>
+      </div>
+    </div>
+    <footer>
+      <h3>六角學院｜高雄市鹽埕區七賢三路 123 號 2F</h3>
+    </footer>
+  </div>
+
+  <!-- The Modal -->
+  <div
+    id="myModal"
+    class="modal"
+  >
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="left-content">
+        <h3>票價查詢-168 環東幹線</h3>
+        <div class="start-station">
+          <label for="start_station">起站</label>
+          <select
+            name="start_station"
+            id="start_station"
+            class="start-selector"
+          >
+            <option value="">金獅湖站</option>
+          </select>
+          <span class="material-icons select_arrow3">arrow_drop_down</span>
+        </div>
+        <div class="end-station">
+          <label for="end_station">迄站</label>
+          <select
+            name="end_station"
+            id="end_station"
+            class="end-selector"
+          >
+            <option value="">樹德家商</option>
+          </select>
+          <span class="material-icons select_arrow4">arrow_drop_down</span>
+        </div>
+        <p class="change-direction"><span class="material-icons">swap_vert</span>起迄互換</p>
+        <h3 class="price-search-title">查詢結果</h3>
+        <ul class="ticket-price">
+          <li>全票<span>12</span></li>
+          <li>半票<span>6</span></li>
+          <li>學生票 <span>10</span></li>
+        </ul>
+      </div>
+      <div class="right-content">
+        <span class="close">&times;</span>
+        <h5>
+          貼心提醒
+        </h5>
+        <h4>電子票證搭公車「一日二段吃到飽」</h4>
+        <p>
+          搭市區公車當日刷電子票證只會扣2段車資，當日第3段起搭乘市區公車可享免費。（不包含E01、E02、E25、E28、E32、觀光、就醫公車路線與里程計費公車路線，另社福卡種與其他縣市認同卡、市民卡、定期票卡、月票卡及兒同卡等優惠卡主種均不享有相關優惠，且電子票證儲值金額未達搭乘票價無法享有優惠）。
+        </p>
+      </div>
+    </div>
+
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.2.0/sha.js"></script>
+  <script src="./JS/modal.js"></script>
+  <script src="./JS/map.js"></script>
+  <script>
+    localStorage.setItem('nowPage', 'index');
+    let nowPage = localStorage.getItem('nowPage');
+  </script>
+</body>
+
+</html>
