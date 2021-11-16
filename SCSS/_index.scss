@@ -209,21 +209,18 @@ select {
     cursor: pointer;
   }
 }
+
 .bdrs_left {
   border-radius: 8px 0px 0px 8px;
   border: 1px solid #fff;
-  &:hover {
-    background-color: #fff;
-    color: #617673;
-  }
+}
+.be_clicked {
+  background-color: #fff !important;
+  color: #617673 !important;
 }
 .bdrs_right {
   border-radius: 0px 8px 8px 0px;
   border: 1px solid #fff;
-  &:hover {
-    background-color: #fff;
-    color: #617673;
-  }
 }
 
 .price_search {
@@ -277,8 +274,6 @@ select {
   justify-content: space-between;
   margin-top: 16px;
   color: #fff;
-}
-.update-content {
 }
 
 /*-------------- MODAL --------------*/

@@ -466,19 +466,14 @@ select {
   border: 1px solid #fff;
 }
 
-.bdrs_left:hover {
-  background-color: #fff;
-  color: #617673;
+.be_clicked {
+  background-color: #fff !important;
+  color: #617673 !important;
 }
 
 .bdrs_right {
   border-radius: 0px 8px 8px 0px;
   border: 1px solid #fff;
-}
-
-.bdrs_right:hover {
-  background-color: #fff;
-  color: #617673;
 }
 
 .price_search {

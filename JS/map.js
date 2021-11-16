@@ -195,6 +195,7 @@ function routeSearch() {
 
       if (backData.length == 0) {
         console.log('返程沒車車')
+
       } else {
         console.log('整理過的返程車車', backData)
       }
@@ -305,7 +306,8 @@ function getRoute() {
     })
     .catch(err => {
       console.log(err)
-      alert('目前無此車車')
+      alert('目前無此車車');
+      stopSeqContent.innerHTML = "";
     })
 }
 
@@ -323,8 +325,8 @@ function getbusStatus() {
       let newGetbusData = getbusData.filter(i => i.RouteName.Zh_tw === routeName);
 
       busDirection.innerHTML = `
-    <li class="bdrs_left">往 <span>${newGetbusData[0].DepartureStopNameZh}</span></li>
-    <li class="bdrs_right">往 <span>${newGetbusData[0].DestinationStopNameZh}</span></li>
+    <li class="bdrs_left be_clicked" id="backBTN">往 <span>${newGetbusData[0].DepartureStopNameZh}</span></li>
+    <li class="bdrs_right" id="goBTN">往 <span>${newGetbusData[0].DestinationStopNameZh}</span></li>
     `
     })
     .catch(err => {
