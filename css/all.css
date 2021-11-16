@@ -734,6 +734,8 @@ select {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  max-height: 38vh;
+  overflow-y: auto;
 }
 
 .bus-realtime {

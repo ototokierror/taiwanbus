@@ -120,6 +120,7 @@ function ruteSearch(cityName){
 const departureStopName = document.getElementById('departureStopName');
 const destinationStopName = document.getElementById('destinationStopName');
 const busDirection = document.getElementById('busDirection');
+let backData= [] ;
 
 // 搜尋選擇的車車 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
 function routeSearch () {
@@ -131,15 +132,114 @@ function routeSearch () {
   })
   .then (res => {
     let data = res.data;
-    let currentData = data.filter(i => i.PlateNumb!="" && i.RouteName.Zh_tw === routeName);
-    getbusStatus()
-    console.log(currentData);  
+    console.log('全部的車車', data);
+    // 將沒有跑的車車篩掉 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+    let bus = data.filter(i => i.StopStatus===0);
+    console.log('有開的車車', bus);
+    // 去程車車 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+    let catchGoData = bus.filter(i => !i.Direction);
+  
+    // 返程車車 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+    let catchBackData = bus.filter(i => i.Direction);
+    console.log('去程車車：',catchGoData,'返程車車',catchBackData);
+    
+    catchBackData.forEach((i) => { 
+      const index = backData.map(i => i.plateNumb).indexOf(i.PlateNumb);
+     
+      if (index === -1) { // 代表沒找到
+        backData.push({
+          plateNumb: i.PlateNumb, //車牌號碼
+          stops: [{
+            estimateTime: i.EstimateTime,//到站時間預估(秒) 
+            stopUID: i.StopUID//站牌唯一識別代碼
+          }]
+        })
+      } else { // 有找到
+        backData[index].stops.push({
+          estimateTime: i.EstimateTime,//到站時間預估(秒) 
+          stopUID: i.StopUID//站牌唯一識別代碼
+        });
+      }
+      
+    })
+    getbusStatus();
+    getRoute();
+   console.log('整理過的返程車車', backData)
   })
   .catch(err=>{
     console.log(err);
   })
-  
 }
+function getRoute() {
+  const URL = `${APIURL}/v2/Bus/StopOfRoute/City/${cityName}/${routeName}`;
+  axios({
+    method: 'get',
+    url: URL,
+    headers: getAuthorizationHeader()
+  })
+  .then(res => {
+    const data = res.data;
+    const routeData = data.filter((item) => item.RouteName.Zh_tw === routeName);
+    console.log('往返列表', routeData);
+    // 去程
+    // let gobusID = ''
+    //       let gotime = 0;
+    //       let gotimeText = '';
+    // console.log('往資料', routeData[0])
+    //       routeData[0].Stops.forEach((item) => {
+    //         backData.forEach((go) => {
+    //           go.stops.forEach((stop) => {
+    //             if (stop.stopUID === item.StopUID) {
+    //               gobusID = go.plateNumb
+    //               gotime = Math.floor(stop.estimateTime / 60)
+    //               console.log('往',gobusID, gotime)
+    
+    //               // 文字顯示
+    //               if (gotime === 0) {
+    //                 gotimeText = '進站中';
+    //               } else if (gotime <= 1 && 0 < gotime) {
+    //                 gotimeText = '即將到站';
+    //               } else if (!gotime) {
+    //                 gotimeText = '--';
+    //               } else {
+    //                 gotimeText = `${gotime} 分鐘`;
+    //               }
+    //             }
+    //           })
+    //         })
+    //       })
+          
+          // 返程
+          let backbusID = ''
+          let backtime = 0;
+          let backtimeText = '';
+    
+          routeData[1].Stops.forEach((item) => {
+            backData.forEach((back) => {
+              back.stops.forEach((stop) => {
+                if (stop.stopUID === item.StopUID) {
+                  backbusID = back.plateNumb
+                  backtime = Math.floor(stop.estimateTime / 60)
+                  console.log('返',backbusID, backtime)
+    
+                  // 文字顯示
+                  if (backtime === 0) {
+                    backtimeText = '進站中';
+                  } else if (backtime <= 1 && 0 < backtime) {
+                    backtimeText = '即將到站';
+                  } else if (!backtime) {
+                    backtimeText = '--';
+                  } else {
+                    backtimeText = `${backtime} 分鐘`;
+                  }
+                }
+              })
+            })
+          })
+  })
+  .catch(err => { console.log(err) })
+}
+
 
 function getbusStatus() {
   let getbusData = [];
@@ -162,6 +262,7 @@ function getbusStatus() {
     console.log(err);
   })
 }
+
 
 function getAuthorizationHeader() {
       let AppID = appId;
