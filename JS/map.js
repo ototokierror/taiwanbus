@@ -216,35 +216,145 @@ function getRoute() {
       const data = res.data;
       const routeData = data.filter((item) => item.RouteName.Zh_tw === routeName);
       console.log('往返列表', routeData);
-      // 去程 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
-      let gobusID = ''
-      let gotime = 0;
-      let gotimeText = '';
 
-      routeData[0].Stops.forEach((item) => {
-        goData.forEach((go) => {
-          go.stops.forEach((stop) => {
-            if (stop.stopUID === item.StopUID) {
-              gobusID = go.plateNumb
-              gotime = Math.floor(stop.estimateTime / 60)
-              console.log('往', gobusID, gotime)
+      busDirection.addEventListener('click', function (e) {
+        const backBTN = document.getElementById('backBTN');
+        backBTN.classList.remove("be_clicked");
+        const goBTN = document.getElementById('goBTN');
+        goBTN.classList.add("be_clicked");
+        // e.target.closest('li').classList.remove("be_clicked");
+        if (e.target.dataset.set === "goBTN") {
+          // 去程 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+          let gobusID = ''
+          let gotime = 0;
+          let gotimeText = '';
+          let goStr = '';
 
-              // 文字顯示
-              if (gotime === 0) {
-                gotimeText = '進站中';
-              } else if (gotime <= 1 && 0 < gotime) {
-                gotimeText = '即將到站';
-              } else if (!gotime) {
-                gotimeText = '--';
-              } else {
-                gotimeText = `${gotime} 分鐘`;
-              }
-            }
+          routeData[0].Stops.forEach((item, index) => {
+            goData.forEach((go) => {
+              go.stops.forEach((stop) => {
+                if (stop.stopUID === item.StopUID) {
+                  gobusID = go.plateNumb
+                  gotime = Math.floor(stop.estimateTime / 60)
+                  console.log('往', gobusID, gotime)
+
+                  // 文字顯示
+                  if (gotime === 0) {
+                    gotimeText = '<span class="orange">進站中<span>';
+                  } else if (gotime <= 1 && 0 < gotime) {
+                    gotimeText = '<span class="green">即將到站<span>';
+                  } else if (!gotime) {
+                    gotimeText = '--';
+                  } else {
+                    gotimeText = `${gotime} 分`;
+                  }
+                }
+              })
+            })
+            goStr += `
+            <div class="seq-content">
+            <p class="w32 center">${index + 1}</p>
+            <p class="w216 df-aic">${item.StopName.Zh_tw}
+              <span class="material-icons place">place</span>
+            </p>
+            <p class="w64">${gotimeText}</p>
+            </div>`
           })
-        })
+          let newStr = `
+          <h3
+          class="price_search"
+          id="myBtn"
+        >票價查詢</h3>
+          <ul class="bus-realtime">
+          <li>
+            <div class="sequence">
+              <p class="w32">站序</p>
+              <p class="w216">站名</p>
+              <p class="w64">預估到站</p>
+            </div>
+          </li>
+          ${goStr}
+          </ul>
+          <div class="update-content">
+          <ul class="update">
+            <li><span id="updateCountdown">30</span> 秒後更新</li>
+            <li id="update">更新</li>
+          </ul>
+        </div>
+          `
+          stopSeqContent.innerHTML = newStr;
+        }
+      })
+      busDirection.addEventListener('click', function (e) {
+        if (e.target.dataset.set === "backBTN") {
+          const goBTN = document.getElementById('goBTN');
+          goBTN.classList.remove("be_clicked");
+          const backBTN = document.getElementById('backBTN');
+          backBTN.classList.add("be_clicked");
+          // 返程 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+          let backbusID = ''
+          let backtime = 0;
+          let backtimeText = '';
+          let backStr = '';
+
+          routeData[1].Stops.forEach((item, index) => {
+            backData.forEach((back) => {
+              back.stops.forEach((stop) => {
+                if (stop.stopUID === item.StopUID) {
+                  backbusID = back.plateNumb
+                  backtime = Math.floor(stop.estimateTime / 60)
+                  console.log('返', backbusID, backtimeText)
+
+                  // 文字顯示
+                  if (backtime === 0) {
+                    backtimeText = '<span class="orange">進站中<span>';
+                  } else if (backtime <= 1 && 0 < backtime) {
+                    backtimeText = '<span class="green">即將到站<span>';
+                  } else if (!backtime) {
+                    backtimeText = '--';
+                  } else {
+                    backtimeText = `${backtime} 分`;
+                  }
+                }
+              })
+            })
+            backStr += `
+<div class="seq-content">
+<p class="w32 center">${index + 1}</p>
+<p class="w216 df-aic">${item.StopName.Zh_tw}
+  <span class="material-icons place">place</span>
+</p>
+<p class="w64">${backtimeText}</p>
+</div>`
+          })
+          let newStr = `
+      <h3
+      class="price_search"
+      id="myBtn"
+    >票價查詢</h3>
+      <ul class="bus-realtime">
+      <li>
+        <div class="sequence">
+          <p class="w32">站序</p>
+          <p class="w216">站名</p>
+          <p class="w64">預估到站</p>
+        </div>
+      </li>
+      ${backStr}
+      </ul>
+      <div class="update-content">
+      <ul class="update">
+        <li><span id="updateCountdown">30</span> 秒後更新</li>
+        <li id="update">更新</li>
+      </ul>
+    </div>
+      `
+          stopSeqContent.innerHTML = newStr;
+        }
       })
 
-      // 返程 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+
+      // 預設返程 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
       let backbusID = ''
       let backtime = 0;
       let backtimeText = '';
@@ -260,13 +370,13 @@ function getRoute() {
 
               // 文字顯示
               if (backtime === 0) {
-                backtimeText = '進站中';
+                backtimeText = '<span class="orange">進站中<span>';
               } else if (backtime <= 1 && 0 < backtime) {
-                backtimeText = '即將到站';
+                backtimeText = '<span class="green">即將到站<span>';
               } else if (!backtime) {
                 backtimeText = '--';
               } else {
-                backtimeText = `${backtime} 分鐘`;
+                backtimeText = `${backtime} 分`;
               }
             }
           })
@@ -303,6 +413,8 @@ function getRoute() {
     </div>
       `
       stopSeqContent.innerHTML = newStr;
+      openModal();
+
     })
     .catch(err => {
       console.log(err)
@@ -325,8 +437,8 @@ function getbusStatus() {
       let newGetbusData = getbusData.filter(i => i.RouteName.Zh_tw === routeName);
 
       busDirection.innerHTML = `
-    <li class="bdrs_left be_clicked" id="backBTN">往 <span>${newGetbusData[0].DepartureStopNameZh}</span></li>
-    <li class="bdrs_right" id="goBTN">往 <span>${newGetbusData[0].DestinationStopNameZh}</span></li>
+    <li class="bdrs_left be_clicked" id="backBTN" data-set="backBTN">往 <span data-set="backBTN">${newGetbusData[0].DepartureStopNameZh}</span></li>
+    <li class="bdrs_right" id="goBTN" data-set="goBTN">往 <span data-set="goBTN">${newGetbusData[0].DestinationStopNameZh}</span></li>
     `
     })
     .catch(err => {
@@ -334,7 +446,37 @@ function getbusStatus() {
     })
 }
 
+// 查價格 modal ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+function openModal() {
+  // Get the modal
+  let modal = document.getElementById("myModal");
 
+  // Get the button that opens the modal
+  let btn = document.getElementById("myBtn");
+
+  // Get the <span> element that closes the modal
+  let span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on the button, open the modal
+  btn.onclick = function () {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function () {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+
+}
+
+// header ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
 function getAuthorizationHeader() {
   let AppID = appId;
   let AppKey = appKey;

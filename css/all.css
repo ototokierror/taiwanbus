@@ -487,13 +487,20 @@ select {
   cursor: pointer;
 }
 
+.green {
+  color: #00c2ba;
+}
+
+.orange {
+  color: #ff8800;
+}
+
 .time-table {
   width: 100%;
   text-align: left;
   color: #fff;
   margin-top: 12px;
   display: block;
-  overflow: auto;
   border-collapse: collapse;
 }
 
@@ -734,11 +741,19 @@ select {
   overflow-y: auto;
 }
 
+.bus-seq-container::-webkit-scrollbar {
+  display: none;
+}
+
 .bus-realtime {
   color: #fff;
   margin-top: 12px;
   line-height: 24px;
   overflow: auto;
+}
+
+.bus-realtime::-webkit-scrollbar {
+  display: none;
 }
 
 .sequence {
