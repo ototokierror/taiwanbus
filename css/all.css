@@ -318,6 +318,7 @@ body {
 }
 
 .area-select {
+  position: relative;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 33px;

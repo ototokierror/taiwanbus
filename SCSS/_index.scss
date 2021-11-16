@@ -99,6 +99,7 @@ body {
   flex-grow: 1;
 }
 .area-select {
+  position: relative;
   padding-left: 24px;
   padding-right: 24px;
   padding-top: 33px;
@@ -276,6 +277,8 @@ select {
   justify-content: space-between;
   margin-top: 16px;
   color: #fff;
+}
+.update-content {
 }
 
 /*-------------- MODAL --------------*/
