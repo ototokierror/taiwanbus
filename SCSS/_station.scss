@@ -1,0 +1,27 @@
+.station-search {
+  width: 100%;
+  height: 36px;
+  border-radius: 24px;
+  border: 1px solid #ced4da;
+  padding-left: 44px;
+  background-color: #617673;
+  color: #fff;
+  font-family: 'Noto Sans CJK TC';
+  line-height: 24px;
+  &::placeholder {
+    color: #dfdfdf;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+.search-content {
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  top: 7px;
+  left: 15px;
+  color: #fff;
+}
