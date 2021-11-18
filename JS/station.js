@@ -118,7 +118,7 @@ function busNearBy(lon, lat, mymap) {
     })
 }
 const busIcon = new L.Icon({
-  iconUrl: '../image/busIcon.png',
+  iconUrl: 'image/busIcon.png',
   iconSize: [48, 54],
 });
 
