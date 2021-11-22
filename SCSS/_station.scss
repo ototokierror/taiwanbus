@@ -52,6 +52,11 @@
   }
 }
 .stations {
+  height: 36vh;
+  overflow-y: scroll;
+}
+.stations::-webkit-scrollbar {
+  display: none;
 }
 .station {
   margin-bottom: 16px;
