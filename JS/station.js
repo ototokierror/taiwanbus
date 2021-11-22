@@ -60,8 +60,29 @@ stationSearch.addEventListener('input', (e) => {
   let filterData = stationData.filter(i => i.StationName.Zh_tw.indexOf(stationName) != -1).slice(0, 10);
   let str = "";
   filterData.forEach(i => {
+    let bearing = '';
+    if (i.Bearing == 'S') {
+      bearing = '( 南行 )';
+    } else if (i.Bearing == 'N') {
+      bearing = '( 北行 )';
+    } else if (i.Bearing == "W") {
+      bearing = '( 西行 )';
+    } else if (i.Bearing == "E") {
+      bearing = '( 東行 )';
+    } else if (i.Bearing == "SE") {
+      bearing = '( 東南行 )';
+    } else if (i.Bearing == "NE") {
+      bearing = "( 東北行 )";
+    } else if (i.Bearing == "SW") {
+      bearing = "( 西南行 )";
+    } else if (i.Bearing == "NW") {
+      bearing = "( 西北行 )";
+    } else {
+      bearing = "";
+    }
+
     str += `
-   <li data-id="${i.StationID}" data-station="${i.StationName.Zh_tw}">${i.StationName.Zh_tw}(${i.Bearing})</li>
+   <li data-id="${i.StationID}" data-station="${i.StationName.Zh_tw}">${i.StationName.Zh_tw} ${bearing}</li>
    `
   })
   keywordList.innerHTML = str;
@@ -72,10 +93,9 @@ stationSearch.addEventListener('input', (e) => {
     stationSearch.focus();
   })
 })
-/* 
-先撈出可以取得該城市所有站牌的 API
 
-*/
+
+// 站render ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
 const stations = document.getElementById('stations');
 function getStation(StationID) {
   let stationUrl = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}/PassThrough/Station/${StationID}`;
