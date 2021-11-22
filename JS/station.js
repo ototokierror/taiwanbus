@@ -32,41 +32,121 @@ function citySelector() {
 citySelector();
 let cityName = '';
 let stationName = '';
-
+let stationData = [];
+let nowData = [];
+let stationID = '';
 // 站搜尋 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
 const stationSearch = document.getElementById('stationSearch');
+const searchResult = document.getElementById('searchResult');
 stationSearch.addEventListener('keypress', (e) => {
   if (e.key === "Enter") {
     stationName = stationSearch.value;
     stationSearch.value = "";
-
+    console.log('stationData', stationData)
+    let filterData = stationData.filter(i => i.StationName.Zh_tw.indexOf(stationName) != -1);
+    console.log(filterData);
+    // filterData.forEach(i => {
+    //   getStation(i.StationID);
+    // })
+    getStation(stationID);
+    searchResult.innerHTML = `<h3>${stationName}</h3>`
   }
 });
+
+
+const keywordList = document.getElementById('keywordList');
+stationSearch.addEventListener('input', (e) => {
+  stationName = stationSearch.value;
+  let filterData = stationData.filter(i => i.StationName.Zh_tw.indexOf(stationName) != -1).slice(0, 10);
+  let str = "";
+  filterData.forEach(i => {
+    str += `
+   <li data-id="${i.StationID}" data-station="${i.StationName.Zh_tw}">${i.StationName.Zh_tw}(${i.Bearing})</li>
+   `
+  })
+  keywordList.innerHTML = str;
+  keywordList.addEventListener('click', (e) => {
+    stationID = e.target.closest('li').dataset.id;
+    stationSearch.value = e.target.closest('li').dataset.station;
+    keywordList.innerHTML = "";
+    stationSearch.focus();
+  })
+})
 /* 
 先撈出可以取得該城市所有站牌的 API
 
 */
+const stations = document.getElementById('stations');
+function getStation(StationID) {
+  let stationUrl = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}/PassThrough/Station/${StationID}`;
+  axios({
+    method: 'get',
+    url: stationUrl,
+    headers: getAuthorizationHeader()
+  })
+    .then(res => {
+      console.log(res);
+      let data = res.data;
+      let currentData = data.filter(i => i.PlateNumb !== "-1" && i.PlateNumb);
+      let str = `<li class="station_title">
+      <div class="title">
+        <h5 class="w50">路線名稱</h5>
+        <h5 class="w30">預估到站</h5>
+        <h5 class="w20">方向</h5>
+      </div>
+    </li>`;
 
+      if (currentData.length == 0) {
+        str = '<h5> 目前無行駛公車 </h5>'
+      } else {
+        currentData.forEach(i => {
+          str += `
+          <div class="station">
+                          <h5 class="w50">${i.RouteName.Zh_tw}</h5>
+                          <h5 class="w30">${Math.floor(i.EstimateTime / 60)} 分</h5>
+                          <h5 class="w20">${i.Direction ? "返程" : "去程"}</h5>
+                        </div>
+          `
+        })
+      }
+      stations.innerHTML = str;
 
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+function getNowData() {
+  const url = `https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeNearStop/City/${cityName}`;
+  axios({
+    method: 'get',
+    url: url,
+    headers: getAuthorizationHeader()
+  })
+    .then(res => {
+      nowData = res.data;
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
 // 監聽 ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
 citySelect.addEventListener('change', function (e) {
   console.log(e.target.value);
   cityName = e.target.value;
+  getNowData();
   axios({
     method: 'get',
     url: `https://ptx.transportdata.tw/MOTC/v2/Bus/Station/City/${cityName}`,
     headers: getAuthorizationHeader()
   })
     .then(res => {
-      console.log('站位資料', res);
+      console.log('站牌資料', res.data);
+      stationData = res.data;
     })
-  axios({
-    method: 'get',
-    url: `https://ptx.transportdata.tw/MOTC/v2/Bus/Stop/City/${cityName}`,
-    headers: getAuthorizationHeader()
-  })
-    .then(res => {
-      console.log('站牌資料', res);
+    .catch(err => {
+      console.log(err);
     })
 })
 

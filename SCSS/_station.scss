@@ -25,3 +25,58 @@
   left: 15px;
   color: #fff;
 }
+
+.bus_station {
+  margin-top: 16px;
+  color: #fff;
+  font-family: 'Noto Sans CJK TC';
+  line-height: 24px;
+}
+.search_result {
+  padding-bottom: 15px;
+}
+.station_title {
+  margin-bottom: 16px;
+  .title {
+    display: flex;
+    justify-content: space-between;
+  }
+  .w50 {
+    width: 58%;
+  }
+  .w30 {
+    width: 27%;
+  }
+  .w20 {
+    width: 15%;
+  }
+}
+.stations {
+}
+.station {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  .w50 {
+    width: 58%;
+  }
+  .w30 {
+    width: 27%;
+  }
+  .w20 {
+    width: 15%;
+  }
+}
+.keyword {
+  background-color: rgba(#909494, 0.9);
+  color: #fff;
+  border-radius: 5px;
+  position: absolute;
+  width: 100%;
+  li {
+    padding: 10px;
+    &:hover {
+      background-color: rgba(#617673, 0.5);
+    }
+  }
+}
