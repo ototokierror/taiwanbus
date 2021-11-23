@@ -66,11 +66,11 @@
         <ul class="navs">
           <li><a href="./index.html">公車動態</a></li>
           <li><a href="">乘車規劃</a></li>
+          <li><a href="./station.html">站點查詢</a></li>
           <li><a
-              href="./station.html"
+              href="./priceSearch.html"
               class="now"
-            >站點查詢</a></li>
-          <li><a href="./priceSearch.html">票價查詢</a></li>
+            >票價查詢</a></li>
           <li><a href="">最新消息</a></li>
         </ul>
       </div>
@@ -78,93 +78,84 @@
         <p class="info-plunker">（10/12）865 班次公車因豐原往谷關方向發生路樹倒塌，10:05 發車班次僅行駛谷關至梨山，造成不便，敬請見諒</p>
       </div>
     </header>
-    <div class="container">
-      <div class="items">
-        <div class="area-select">
-          <h3 class="sub-title">
-            <span class="material-icons">directions_bus</span>
-            站點查詢
-          </h3>
-          <div class="select_list">
+    <div class="ticket-container">
+      <div class="ticket-content">
+        <div class="left-content">
+          <h3>票價查詢</h3>
+          <div class="start-station">
             <select
-              aria-label="citySelect"
-              required
-              class="selector"
-              id="citySelect"
+              name="city"
+              title="city"
+              class="start-selector city-selector"
+              id="citySelector"
             >
               <option
                 value=""
                 hidden
               >選擇縣市</option>
-              <!-- ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰-->
             </select>
-            <span class="material-icons select_arrow1">arrow_drop_down</span>
-            <div class="search-content">
-              <input
-                type="text"
-                class="station-search"
-                placeholder="使用站名或地址查詢"
-                id="stationSearch"
-              >
-              <span class="material-icons search-icon">search</span>
-            </div>
-            <ul
-              class="keyword"
-              id="keywordList"
+            <span class="material-icons select_arrow6">arrow_drop_down</span>
+            <select
+              name="route"
+              title="route"
+              class="start-selector route-selector"
+              id="routeSelector"
             >
-              <!-- <li>捷運美麗島站 (N)</li>
-              <li>捷運美麗島站 (S)</li> -->
-            </ul>
+              <option
+                value=""
+                hidden
+              >選擇路線</option>
+            </select>
+            <span class="material-icons select_arrow5">arrow_drop_down</span>
+            <label for="start_station">起站</label>
+            <select
+              name="start_station"
+              id="start_station"
+              class="start-selector"
+            >
+              <option
+                value=""
+                hidden
+              >選擇起站</option>
+            </select>
+            <span class="material-icons select_arrow3">arrow_drop_down</span>
           </div>
-          <ul
-            class="bus_station"
-            id="busStation"
-          >
-            <li
-              class="search_result"
-              id="searchResult"
+          <div class="end-station">
+            <label
+              for="end_station"
+              hidden
+            >迄站</label>
+            <select
+              title="end_station"
+              name="end_station"
+              id="end_station"
+              class="end-selector"
             >
-              <!-- <h3>捷運美麗島站</h3> -->
-            </li>
-
-            <li
-              class="stations"
-              id="stations"
-            >
-
-              <!-- <div class="station">
-                <h5 class="w50">87貓貓幹線</h5>
-                <h5 class="w30">14 分</h5>
-                <h5 class="w20">去程</h5>
-              </div>
-              <div class="station">
-                <h5 class="w50">87貓貓幹線</h5>
-                <h5 class="w30">14 分</h5>
-                <h5 class="w20">去程</h5>
-              </div>
-              <div class="station">
-                <h5 class="w50">87貓貓幹線</h5>
-                <h5 class="w30">14 分</h5>
-                <h5 class="w20">去程</h5>
-              </div>
-              <div class="station">
-                <h5 class="w50">87貓貓幹線</h5>
-                <h5 class="w30">14 分</h5>
-                <h5 class="w20">去程</h5>
-              </div> -->
-            </li>
+              <option
+                value=""
+                hidden
+              >選擇迄站</option>
+            </select>
+            <span class="material-icons select_arrow4">arrow_drop_down</span>
+          </div>
+          <p class="change-direction"><span class="material-icons">swap_vert</span>起迄互換</p>
+          <h3 class="price-search-title">查詢結果</h3>
+          <ul class="ticket-price">
+            <li>全票<span>12</span></li>
+            <li>半票<span>6</span></li>
+            <li>學生票 <span>10</span></li>
           </ul>
-          <div>
-          </div>
-
-          <div
-            class="bus-seq-container"
-            id="stopSeqContent"
-          >
-          </div>
-
         </div>
-        <div id="mapid"></div>
+        <div class="right-content">
+          <span class="close">&times;</span>
+          <h5>
+            貼心提醒
+          </h5>
+          <h4>電子票證搭公車「一日二段吃到飽」</h4>
+          <p>
+            搭市區公車當日刷電子票證只會扣2段車資，當日第3段起搭乘市區公車可享免費。（不包含E01、E02、E25、E28、E32、觀光、就醫公車路線與里程計費公車路線，另社福卡種與其他縣市認同卡、市民卡、定期票卡、月票卡及兒同卡等優惠卡主種均不享有相關優惠，且電子票證儲值金額未達搭乘票價無法享有優惠）。
+          </p>
+        </div>
       </div>
     </div>
     <footer>
@@ -188,11 +179,7 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.2.0/sha.js"
     crossorigin="anonymous"
   ></script>
-  <script src="./JS/station.js"></script>
-  <script>
-    localStorage.setItem('nowPage', 'index');
-    let nowPage = localStorage.getItem('nowPage');
-  </script>
+  <script src="./JS/price.js"></script>
 </body>
 
 </html>

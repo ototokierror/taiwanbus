@@ -1,0 +1,38 @@
+.ticket-content {
+  font-family: 'Noto Sans CJK TC';
+  font-size: 24px;
+  line-height: 28px;
+  background-color: #fefefe;
+  width: 856px; /* Could be more or less, depending on screen size */
+  display: flex;
+}
+
+.ticket-container {
+  font-family: 'Noto Sans CJK TC';
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.select_arrow5,
+.select_arrow6 {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.select_arrow5 {
+  top: 8px;
+  right: 10px;
+}
+.select_arrow6 {
+  top: 56px;
+  right: 10px;
+}
+.city-selector {
+  margin-bottom: 6px;
+}
+.route-selector {
+  margin-bottom: 8px;
+}

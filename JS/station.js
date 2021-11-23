@@ -95,7 +95,7 @@ stationSearch.addEventListener('input', (e) => {
 })
 
 
-// 站render ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
+// 搜尋結果render ★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰★∻∹⋰⋰ ☆∻∹⋰⋰ ★∻∹⋰⋰ ☆∻∹⋰⋰
 const stations = document.getElementById('stations');
 function getStation(StationID) {
   let stationUrl = `https://ptx.transportdata.tw/MOTC/v2/Bus/EstimatedTimeOfArrival/City/${cityName}/PassThrough/Station/${StationID}`;
@@ -115,7 +115,6 @@ function getStation(StationID) {
         <h5 class="w20">方向</h5>
       </div>
     </li>`;
-
       if (currentData.length == 0) {
         str = '<h5> 目前無行駛公車 </h5>'
       } else {
@@ -126,16 +125,17 @@ function getStation(StationID) {
                           <h5 class="w30">${Math.floor(i.EstimateTime / 60)} 分</h5>
                           <h5 class="w20">${i.Direction ? "返程" : "去程"}</h5>
                         </div>
-          `
+          `;
         })
       }
       stations.innerHTML = str;
-
     })
     .catch(err => {
       console.log(err);
     })
 }
+
+
 
 function getNowData() {
   const url = `https://ptx.transportdata.tw/MOTC/v2/Bus/RealTimeNearStop/City/${cityName}`;
